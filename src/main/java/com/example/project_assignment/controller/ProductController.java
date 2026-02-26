@@ -1,6 +1,9 @@
 package com.example.project_assignment.controller;
 
+import com.example.project_assignment.dto.ProductRequestDTO;
+import com.example.project_assignment.dto.ProductResponseDTO;
 import com.example.project_assignment.entity.Product;
+import com.example.project_assignment.mapper.ProductMapper;
 import com.example.project_assignment.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +34,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product p = productService.addProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(p);
+    public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        Product product= ProductMapper.toEntity(productRequestDTO);
+        Product saved=productService.addProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toResponseDTO(saved));
     }
 
     @PutMapping("/{uuid}")
