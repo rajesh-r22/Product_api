@@ -27,11 +27,13 @@ public class Product {
     @NotBlank
     private String brand;
 
+    @NotEmpty
     private String category;
 
     @Positive
     @DecimalMin(value = "0.0", inclusive = false)
     private double price;
+
     @CreationTimestamp
     private LocalDateTime created_at;
 }
