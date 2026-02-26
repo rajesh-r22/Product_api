@@ -5,6 +5,7 @@ import com.example.project_assignment.dto.ProductResponseDTO;
 import com.example.project_assignment.entity.Product;
 import com.example.project_assignment.mapper.ProductMapper;
 import com.example.project_assignment.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +35,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+    public ResponseEntity<ProductResponseDTO> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
         Product product= ProductMapper.toEntity(productRequestDTO);
         Product saved=productService.addProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toResponseDTO(saved));
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<Product> updateProduct(@PathVariable UUID uuid, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@Valid @PathVariable UUID uuid, @RequestBody Product product) {
         Product update = productService.updateProduct(uuid, product);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
