@@ -1,0 +1,53 @@
+package com.example.project_assignment.controller;
+
+import com.example.project_assignment.entity.Product;
+import com.example.project_assignment.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    private final ProductService productService;
+
+    ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping("/all")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> getByName(@RequestParam String name) {
+        List<Product> products = productService.findByName(name);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        Product p = productService.addProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(p);
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Product> updateProduct(@PathVariable UUID uuid, @RequestBody Product product) {
+        Product update = productService.updateProduct(uuid, product);
+        return ResponseEntity.status(HttpStatus.OK).body(update);
+    }
+
+    @DeleteMapping("/{uuid}")
+    public  ResponseEntity<String> deleteProduct(@PathVariable UUID uuid) {
+        productService.deleteProduct(uuid);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+}
+
+
+

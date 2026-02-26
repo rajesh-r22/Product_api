@@ -16,7 +16,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> allProducts() {
+    public List<Product> getAllProducts() {
          return productRepository.findAll();
     }
 
@@ -47,11 +47,12 @@ public class ProductService {
 
         return productRepository.save(existingProduct);
     }
-    public void deleteProduct(UUID id) {
+    public void  deleteProduct(UUID id) {
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("Product with id: " + id + " does not exist");
         }
         productRepository.deleteById(id);
+
     }
 
 }

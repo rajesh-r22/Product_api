@@ -1,9 +1,6 @@
 package com.example.project_assignment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
