@@ -41,13 +41,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toResponseDTO(saved));
     }
 
-    @PutMapping("/api/v1/{uuid}")
+    @PutMapping("/{uuid}")
     public ResponseEntity<Product> updateProduct(@Valid @PathVariable UUID uuid, @RequestBody Product product) {
         Product update = productService.updateProduct(uuid, product);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 
-    @DeleteMapping("/api/v1/{uuid}")
+    @DeleteMapping("/{uuid}")
     public  ResponseEntity<String> deleteProduct(@PathVariable UUID uuid) {
         productService.deleteProduct(uuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

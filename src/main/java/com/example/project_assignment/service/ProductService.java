@@ -1,6 +1,8 @@
 package com.example.project_assignment.service;
 
 import com.example.project_assignment.entity.Product;
+import com.example.project_assignment.exceptions.BadRequestException;
+import com.example.project_assignment.exceptions.ResourceNotFoundException;
 import com.example.project_assignment.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +24,14 @@ public class ProductService {
 
     public List<Product> findByName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Product name cannot be empty");
+            throw new ResourceNotFoundException("Product name cannot be empty");
         }
         return productRepository.findByNameContainingIgnoreCase(name);
     }
 
     public Product addProduct(Product product) {
         if (product.getName() == null || product.getName().isBlank()) {
-            throw new IllegalArgumentException("Product name cannot be empty");
+            throw new BadRequestException("Product name cannot be empty");
         }
         return productRepository.save(product);
     }
@@ -37,7 +39,7 @@ public class ProductService {
 
     public Product updateProduct(UUID id, Product product) {
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product with id: " + id + " does not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " does not exist"));
 
         existingProduct.setName(product.getName());
         existingProduct.setPrice(product.getPrice());
@@ -49,7 +51,7 @@ public class ProductService {
     }
     public void  deleteProduct(UUID id) {
         if (!productRepository.existsById(id)) {
-            throw new IllegalArgumentException("Product with id: " + id + " does not exist");
+            throw new ResourceNotFoundException("Product with id: " + id + " does not exist");
         }
         productRepository.deleteById(id);
 
