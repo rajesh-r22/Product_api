@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -41,13 +41,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toResponseDTO(saved));
     }
 
-    @PutMapping("/{uuid}")
+    @PutMapping("/api/v1/{uuid}")
     public ResponseEntity<Product> updateProduct(@Valid @PathVariable UUID uuid, @RequestBody Product product) {
         Product update = productService.updateProduct(uuid, product);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 
-    @DeleteMapping("/{uuid}")
+    @DeleteMapping("/api/v1/{uuid}")
     public  ResponseEntity<String> deleteProduct(@PathVariable UUID uuid) {
         productService.deleteProduct(uuid);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
